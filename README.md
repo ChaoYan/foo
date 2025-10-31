@@ -28,22 +28,31 @@ visualizations (loss curves, metric/parameter/time bar charts, and attention
 profiles) to `reports/figures/` for quick visual inspection; this directory is
 ignored by git because the figures are generated artifacts.
 
-## Interactive exam page prototype
+## Comparing ERNIE LoRA vs full fine-tuning
 
-The `experiments/exam_site` directory contains a static web prototype that
-emulates the布局和交互 of the State Grid online exam platform. It supports CSV
-题库导入 with 单选题、 多选题 and 判断题 question types. To try it locally:
+To reproduce a lightweight comparison between PaddleNLP's LoRA adapter and
+full-parameter fine-tuning on the Chinese TNEWS classification benchmark using
+`ernie-3.0-medium-zh`, install the additional Paddle dependencies and run:
 
 ```bash
-cd experiments/exam_site
-python -m http.server 8000
+pip install -r requirements.txt  # installs PaddlePaddle and PaddleNLP
+python experiments/compare_ernie_lora_vs_full.py \
+  --max-train-samples 1024 \
+  --max-eval-samples 512 \
+  --epochs 2 \
+  --lora-r 16 \
+  --lora-alpha 32 \
+  --lora-dropout 0.1
 ```
 
-Then open <http://localhost:8000> in your browser and上传符合以下字段的 CSV：
-
-- `题干`（必填）
-- `题型`（必填，支持“单选题”“多选题”“判断题”及其简称）
-- `选项A` 至 `选项H`（可选，用于展示题目选项）
-- `正确答案`（必填）
-
-一个包含示例题目的 `sample_questions.csv` 文件也提供在同一目录。
+The script freezes or unfreezes the transformer backbone depending on the
+strategy, tracks trainable parameter counts, accuracy, and runtime for both
+LoRA and full fine-tuning, and writes a Markdown summary to
+`reports/ernie_lora_vs_full_report.md`. Adapter checkpoints are exported under
+`reports/lora_artifacts/` and full fine-tuned weights under
+`reports/full_finetune_artifacts/`. Increasing the LoRA rank to 16, scaling to
+32, and applying a modest 0.1 dropout widens the adapter capacity enough to
+track the full fine-tuning baseline more closely while still training a tiny
+fraction of the original model parameters. You can further adjust
+`--lora-r`, `--lora-alpha`, or `--lora-dropout` at the command line if a
+different capacity/regularization trade-off is desired.
