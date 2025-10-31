@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>在线考试平台</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <h1>国网学堂 · 考试平台</h1>
+        <div class="exam-meta">
+          <span>试卷状态：<strong>待开始</strong></span>
+          <span>考试时间：<strong>120分钟</strong></span>
+          <span>倒计时：<strong id="countdown">--:--:--</strong></span>
+        </div>
+      </header>
+      <main class="main">
+        <aside class="sidebar">
+          <div class="profile">
+            <img src="avatar.svg" alt="考生照片" class="avatar" />
+            <div class="profile-info">
+              <p>姓名：<strong>张三</strong></p>
+              <p>准考证号：20240001</p>
+              <p>单位：国网某某供电公司</p>
+            </div>
+          </div>
+          <section class="paper-info">
+            <h2>试卷信息</h2>
+            <dl>
+              <div><dt>考试名称：</dt><dd>岗位技能测试</dd></div>
+              <div><dt>总题数：</dt><dd id="total-questions">0</dd></div>
+              <div><dt>试卷满分：</dt><dd>100</dd></div>
+            </dl>
+          </section>
+          <section class="question-nav">
+            <h2>题号导航</h2>
+            <div id="question-list" class="question-list"></div>
+          </section>
+          <section class="upload">
+            <h2>导入题库</h2>
+            <p>支持 CSV 文件，字段需包含：题干、题型、选项A-H、正确答案。</p>
+            <label class="upload-button">
+              选择题库文件
+              <input type="file" id="question-file" accept=".csv" />
+            </label>
+          </section>
+        </aside>
+        <section class="content">
+          <div class="instructions">
+            <p>请仔细阅读题目，在规定时间内完成答题。单选题选择一个答案，多选题可选择多个，判断题选择正确或错误。</p>
+          </div>
+          <div id="question-container" class="questions"></div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
