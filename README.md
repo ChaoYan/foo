@@ -27,3 +27,23 @@ Transformer encoding. In addition, it will export a suite of diagnostic
 visualizations (loss curves, metric/parameter/time bar charts, and attention
 profiles) to `reports/figures/` for quick visual inspection; this directory is
 ignored by git because the figures are generated artifacts.
+
+## Interactive exam page prototype
+
+The `experiments/exam_site` directory contains a static web prototype that
+emulates the布局和交互 of the State Grid online exam platform. It supports CSV
+题库导入 with 单选题、 多选题 and 判断题 question types. To try it locally:
+
+```bash
+cd experiments/exam_site
+python -m http.server 8000
+```
+
+Then open <http://localhost:8000> in your browser and上传符合以下字段的 CSV：
+
+- `题干`（必填）
+- `题型`（必填，支持“单选题”“多选题”“判断题”及其简称）
+- `选项A` 至 `选项H`（可选，用于展示题目选项）
+- `正确答案`（必填）
+
+一个包含示例题目的 `sample_questions.csv` 文件也提供在同一目录。
